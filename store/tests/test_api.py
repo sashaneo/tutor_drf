@@ -59,7 +59,6 @@ class BooksApiTestCase(APITestCase):
 
     def test_get_ordering(self):
         url = reverse('book-list')
-        # books = Book.objects.filter(id__in=[self.book1.id, self.book3.id, self.book2.id]).annotate(
         books = Book.objects.all().annotate(
             annotated_likes=Count(Case(When(userbookrelation__like=True, then=1))),
             rating=Avg('userbookrelation__rate')

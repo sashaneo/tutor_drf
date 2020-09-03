@@ -14,7 +14,7 @@ from store.serializers import BooksSerializer, UserBookRelationSerializer
 
 class BookViewSet(ModelViewSet):
     queryset = Book.objects.all().annotate(
-            annotated_likes=Count(Case(When(userbookrelation__like=True, then=1))),
+        annotated_likes=Count(Case(When(userbookrelation__like=True, then=1))),
         rating=Avg('userbookrelation__rate')
     ).order_by('id')
     serializer_class = BooksSerializer
@@ -36,7 +36,7 @@ class UserBookRelationView(UpdateModelMixin, GenericViewSet):
     lookup_field = 'book'
 
     def get_object(self):
-        obj, _ = UserBookRelation.objects.get_or_create(user=self.request.user, book_id = self.kwargs['book'])
+        obj, _ = UserBookRelation.objects.get_or_create(user=self.request.user, book_id=self.kwargs['book'])
         return obj
 
 

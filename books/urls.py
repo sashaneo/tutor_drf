@@ -1,4 +1,3 @@
-
 from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path, include
@@ -9,7 +8,6 @@ from store.views import BookViewSet, auth, UserBookRelationView
 router = SimpleRouter()
 router.register(r'api/book', BookViewSet)
 router.register(r'book-relation', UserBookRelationView)
-
 
 urlpatterns = [
     path('admin/', admin.site.urls),

@@ -12,8 +12,8 @@ class Book(models.Model):
     def __str__(self):
         return f'id{self.id}: {self.name}'
 
-class UserBookRelation(models.Model):
 
+class UserBookRelation(models.Model):
     RATE_CHOICES = (
         (1, 'Ok'),
         (2, 'Fine'),
@@ -31,7 +31,3 @@ class UserBookRelation(models.Model):
 
     def __str__(self):
         return f'{self.user.username}: {self.book.name}, RATE {self.rate}'
-
-
-
-
