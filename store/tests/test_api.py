@@ -57,34 +57,17 @@ class BooksApiTestCase(APITestCase):
         self.assertEqual(status.HTTP_200_OK, response.status_code)
         self.assertEqual(serializer_data, response.data)
 
-    # def test_get_ordering(self):
-    #     url = reverse('book-list')
-    #     response = self.client.get(url, data={'ordering': 'author_name'})
-    #     serializer_data = BooksSerializer([self.book1, self.book3, self.book2], many=True).data
-    #     self.assertEqual(status.HTTP_200_OK, response.status_code)
-    #     print('='*10)
-    #     print(response.data)
-    #     print('='*10)
-    #     print(serializer_data)
-    #     print('='*10)
-    #     self.assertEqual(serializer_data, response.data)
-
     def test_get_ordering(self):
         url = reverse('book-list')
-        books = Book.objects.filter(id__in=[self.book1.id, self.book3.id, self.book2.id]).annotate(
+        # books = Book.objects.filter(id__in=[self.book1.id, self.book3.id, self.book2.id]).annotate(
+        books = Book.objects.all().annotate(
             annotated_likes=Count(Case(When(userbookrelation__like=True, then=1))),
             rating=Avg('userbookrelation__rate')
-        ).order_by('id')
+        ).order_by('author_name')
         response = self.client.get(url, data={'ordering': 'author_name'})
         serializer_data = BooksSerializer(books, many=True).data
         self.assertEqual(status.HTTP_200_OK, response.status_code)
-        print('='*10)
-        print(response.data)
-        print('='*10)
-        print(serializer_data)
-        print('='*10)
         self.assertEqual(serializer_data, response.data)
-
 
     def test_create(self):
         self.assertEqual(3, Book.objects.all().count())
